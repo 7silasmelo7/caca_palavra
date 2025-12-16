@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Jogo de Adivinhação</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Título -->
+        <header class="header">
+            <h1>🎮 Jogo de Adivinhação</h1>
+        </header>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <!-- Informações do Jogo -->
+            <div class="info-section">
+                <div class="tentativas">
+                    <span id="tentativasText">Tentativas: 5</span>
+                </div>
+            </div>
+
+            <!-- Display da Palavra -->
+            <div class="palavra-container">
+                <div id="palavraDisplay" class="palavra-display">_ _ _ _ _</div>
+            </div>
+
+            <!-- Campo de Entrada -->
+            <div class="input-section">
+                <label for="letraInput">Digite uma letra:</label>
+                <input 
+                    type="text" 
+                    id="letraInput" 
+                    maxlength="1" 
+                    placeholder="A"
+                    autocomplete="off"
+                >
+                <button id="btnVerificar" class="btn btn-verificar">Verificar</button>
+            </div>
+
+            <!-- Letras Usadas -->
+            <div class="letras-usadas-section">
+                <p id="letrasUsadasText">Letras usadas: </p>
+            </div>
+
+            <!-- Mensagem de Feedback -->
+            <div id="mensagem" class="mensagem"></div>
+
+            <!-- Botão Novo Jogo -->
+            <div class="novo-jogo-section">
+                <button id="btnNovoJogo" class="btn btn-novo-jogo">🔄 Novo Jogo</button>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>💡 Dica: Pressione Enter após digitar a letra</p>
+        </footer>
+    </div>
+
+    <!-- Modal de Fim de Jogo -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitulo"></h2>
+            <p id="modalMensagem"></p>
+            <button id="btnFecharModal" class="btn btn-modal">OK</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

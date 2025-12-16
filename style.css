@@ -1,0 +1,387 @@
+/* Reset e Configurações Gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    background-color: #f0f4f8;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    width: 100%;
+    overflow: hidden;
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Conteúdo Principal */
+.main-content {
+    padding: 30px 20px;
+}
+
+/* Informações do Jogo */
+.info-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.tentativas {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+    transition: color 0.3s ease;
+}
+
+.tentativas.critico {
+    color: #ef4444;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+/* Display da Palavra */
+.palavra-container {
+    background-color: white;
+    border-radius: 15px;
+    padding: 40px 20px;
+    margin: 20px 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.palavra-display {
+    font-family: 'Courier New', monospace;
+    font-size: 36px;
+    font-weight: bold;
+    color: #1f2937;
+    text-align: center;
+    letter-spacing: 8px;
+    word-wrap: break-word;
+}
+
+/* Campo de Entrada */
+.input-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin: 30px 0;
+}
+
+.input-section label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+#letraInput {
+    width: 80px;
+    height: 60px;
+    font-size: 32px;
+    text-align: center;
+    border: 3px solid #4f46e5;
+    border-radius: 10px;
+    outline: none;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+#letraInput:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+/* Botões */
+.btn {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-verificar {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.btn-novo-jogo {
+    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+    color: white;
+    padding: 15px 40px;
+    font-size: 18px;
+}
+
+/* Letras Usadas */
+.letras-usadas-section {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#letrasUsadasText {
+    font-size: 16px;
+    color: #6b7280;
+    word-wrap: break-word;
+}
+
+/* Mensagem de Feedback */
+.mensagem {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 16px;
+    font-weight: 600;
+    min-height: 24px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.mensagem.sucesso {
+    color: #10b981;
+}
+
+.mensagem.erro {
+    color: #ef4444;
+}
+
+.mensagem.info {
+    color: #4f46e5;
+}
+
+/* Botão Novo Jogo */
+.novo-jogo-section {
+    text-align: center;
+    margin: 30px 0 20px;
+}
+
+/* Footer */
+.footer {
+    background-color: #e5e7eb;
+    color: #6b7280;
+    text-align: center;
+    padding: 15px;
+    font-size: 14px;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    animation: slideIn 0.3s ease-out;
+}
+
+.modal-content h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #1f2937;
+}
+
+.modal-content p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: #6b7280;
+}
+
+.btn-modal {
+    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+    color: white;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        border-radius: 15px;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .palavra-display {
+        font-size: 28px;
+        letter-spacing: 6px;
+    }
+
+    #letraInput {
+        width: 70px;
+        height: 50px;
+        font-size: 28px;
+    }
+
+    .btn {
+        padding: 10px 25px;
+        font-size: 14px;
+    }
+
+    .btn-novo-jogo {
+        padding: 12px 35px;
+        font-size: 16px;
+    }
+
+    .main-content {
+        padding: 20px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .header h1 {
+        font-size: 20px;
+    }
+
+    .palavra-display {
+        font-size: 24px;
+        letter-spacing: 4px;
+    }
+
+    .palavra-container {
+        padding: 30px 15px;
+    }
+
+    #letraInput {
+        width: 60px;
+        height: 45px;
+        font-size: 24px;
+    }
+
+    .input-section label {
+        font-size: 14px;
+    }
+
+    .btn {
+        padding: 8px 20px;
+        font-size: 13px;
+    }
+
+    .btn-novo-jogo {
+        padding: 10px 30px;
+        font-size: 15px;
+    }
+
+    .tentativas {
+        font-size: 16px;
+    }
+
+    #letrasUsadasText {
+        font-size: 14px;
+    }
+
+    .mensagem {
+        font-size: 14px;
+    }
+
+    .footer {
+        font-size: 12px;
+        padding: 12px;
+    }
+
+    .modal-content {
+        padding: 30px 20px;
+    }
+
+    .modal-content h2 {
+        font-size: 24px;
+    }
+
+    .modal-content p {
+        font-size: 16px;
+    }
+}
+
+/* Animações de hover para dispositivos com mouse */
+@media (hover: hover) {
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+    
+    #letraInput:hover {
+        border-color: #6366f1;
+    }
+}
