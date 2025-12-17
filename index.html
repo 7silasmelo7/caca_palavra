@@ -11,7 +11,29 @@
         <!-- Título -->
         <header class="header">
             <h1>🎮 Jogo de Adivinhação</h1>
+            <button id="btnConfig" class="btn-config" title="Configurações de IA">⚙️</button>
         </header>
+
+        <!-- Painel de Configuração de IA -->
+        <div id="configPanel" class="config-panel">
+            <h3>🤖 Configuração de IA</h3>
+            <div class="config-content">
+                <label for="apiKey">Google Gemini API Key:</label>
+                <input type="password" id="apiKey" placeholder="Cole sua API key aqui">
+                <button id="btnSalvarKey" class="btn btn-salvar">Salvar</button>
+                <p class="config-info">🔗 <a href="https://aistudio.google.com/app/apikey" target="_blank">Obter API key gratuita</a></p>
+                <div class="config-options">
+                    <label>
+                        <input type="checkbox" id="usarIApalavras" checked>
+                        Gerar palavras com IA
+                    </label>
+                    <label>
+                        <input type="checkbox" id="dicasIA" checked>
+                        Ativar dicas inteligentes
+                    </label>
+                </div>
+            </div>
+        </div>
 
         <!-- Conteúdo Principal -->
         <main class="main-content">
@@ -38,6 +60,12 @@
                     autocomplete="off"
                 >
                 <button id="btnVerificar" class="btn btn-verificar">Verificar</button>
+            </div>
+
+            <!-- Botão de Dica -->
+            <div class="dica-section">
+                <button id="btnDica" class="btn btn-dica" title="Obter dica inteligente">💡 Dica com IA</button>
+                <span id="dicasRestantes" class="dicas-contador">Dicas: 3</span>
             </div>
 
             <!-- Letras Usadas -->

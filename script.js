@@ -9,6 +9,12 @@ class JogoAdivinhacao {
         this.seletorPalavra = [];
         this.tentativas = 5;
         this.letrasUsadas = new Set();
+        this.dicasRestantes = 3;
+        
+        // Configurações de IA
+        this.apiKey = localStorage.getItem('geminiApiKey') || '';
+        this.usarIApalavras = localStorage.getItem('usarIApalavras') !== 'false';
+        this.dicasIA = localStorage.getItem('dicasIA') !== 'false';
         
         // Elementos DOM
         this.elementos = {
@@ -19,19 +25,44 @@ class JogoAdivinhacao {
             letraInput: document.getElementById('letraInput'),
             btnVerificar: document.getElementById('btnVerificar'),
             btnNovoJogo: document.getElementById('btnNovoJogo'),
+            btnDica: document.getElementById('btnDica'),
+            dicasRestantes: document.getElementById('dicasRestantes'),
+            btnConfig: document.getElementById('btnConfig'),
+            configPanel: document.getElementById('configPanel'),
+            apiKey: document.getElementById('apiKey'),
+            btnSalvarKey: document.getElementById('btnSalvarKey'),
+            usarIApalavras: document.getElementById('usarIApalavras'),
+            dicasIA: document.getElementById('dicasIA'),
             modal: document.getElementById('modal'),
             modalTitulo: document.getElementById('modalTitulo'),
             modalMensagem: document.getElementById('modalMensagem'),
             btnFecharModal: document.getElementById('btnFecharModal')
         };
         
+        this.carregarConfiguracoes();
         this.inicializarEventos();
         this.novoJogo();
     }
     
+    carregarConfiguracoes() {
+        this.elementos.apiKey.value = this.apiKey;
+        this.elementos.usarIApalavras.checked = this.usarIApalavras;
+        this.elementos.dicasIA.checked = this.dicasIA;
+    }
+    
     inicializarEventos() {
+        // Configuração de IA
+        this.elementos.btnConfig.addEventListener('click', () => {
+            this.elementos.configPanel.classList.toggle('show');
+        });
+        
+        this.elementos.btnSalvarKey.addEventListener('click', () => this.salvarConfiguracoes());
+        
         // Evento de verificar letra
         this.elementos.btnVerificar.addEventListener('click', () => this.verificarLetra());
+        
+        // Evento de dica
+        this.elementos.btnDica.addEventListener('click', () => this.obterDica());
         
         // Evento de pressionar Enter
         this.elementos.letraInput.addEventListener('keypress', (e) => {
@@ -59,9 +90,18 @@ class JogoAdivinhacao {
         });
     }
     
-    novoJogo() {
-        // Selecionar palavra aleatória
-        this.palavra = this.bancoPalavras[Math.floor(Math.random() * this.bancoPalavras.length)].toLowerCase();
+    async novoJogo() {
+        // Gerar palavra com IA se configurado
+        if (this.usarIApalavras && this.apiKey) {
+            const palavraIA = await this.gerarPalavraComIA();
+            if (palavraIA) {
+                this.palavra = palavraIA.toLowerCase();
+            } else {
+                this.palavra = this.bancoPalavras[Math.floor(Math.random() * this.bancoPalavras.length)].toLowerCase();
+            }
+        } else {
+            this.palavra = this.bancoPalavras[Math.floor(Math.random() * this.bancoPalavras.length)].toLowerCase();
+        }
         
         // Inicializar seletor de palavra
         this.seletorPalavra = Array(this.palavra.length).fill('_');
@@ -69,6 +109,7 @@ class JogoAdivinhacao {
         // Resetar variáveis
         this.tentativas = 5;
         this.letrasUsadas.clear();
+        this.dicasRestantes = 3;
         
         // Atualizar interface
         this.atualizarInterface();
@@ -81,8 +122,123 @@ class JogoAdivinhacao {
         this.elementos.letraInput.value = '';
         this.elementos.letraInput.focus();
         
+        // Atualizar botão de dica
+        this.elementos.btnDica.disabled = false;
+        this.elementos.dicasRestantes.textContent = `Dicas: ${this.dicasRestantes}`;
+        
         // Fechar modal se estiver aberto
         this.fecharModal();
+    }
+    
+    salvarConfiguracoes() {
+        this.apiKey = this.elementos.apiKey.value.trim();
+        this.usarIApalavras = this.elementos.usarIApalavras.checked;
+        this.dicasIA = this.elementos.dicasIA.checked;
+        
+        localStorage.setItem('geminiApiKey', this.apiKey);
+        localStorage.setItem('usarIApalavras', this.usarIApalavras);
+        localStorage.setItem('dicasIA', this.dicasIA);
+        
+        this.mostrarMensagem('✅ Configurações salvas com sucesso!', 'sucesso');
+        this.elementos.configPanel.classList.remove('show');
+    }
+    
+    async gerarPalavraComIA() {
+        if (!this.apiKey) return null;
+        
+        try {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${this.apiKey}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: 'Gere uma única palavra em português para um jogo de adivinhação. A palavra deve ter entre 4 e 10 letras. Responda apenas com a palavra, sem explicações.'
+                        }]
+                    }]
+                })
+            });
+            
+            const data = await response.json();
+            if (data.candidates && data.candidates[0]) {
+                const palavra = data.candidates[0].content.parts[0].text.trim().toLowerCase();
+                return palavra.replace(/[^a-záàâãéèêíïóôõöúçñ]/gi, '');
+            }
+        } catch (error) {
+            console.error('Erro ao gerar palavra com IA:', error);
+        }
+        
+        return null;
+    }
+    
+    async obterDica() {
+        if (this.dicasRestantes === 0) {
+            this.mostrarMensagem('⚠️ Você não tem mais dicas!', 'erro');
+            return;
+        }
+        
+        this.elementos.btnDica.disabled = true;
+        
+        if (this.dicasIA && this.apiKey) {
+            await this.obterDicaIA();
+        } else {
+            this.obterDicaSimples();
+        }
+        
+        this.dicasRestantes--;
+        this.elementos.dicasRestantes.textContent = `Dicas: ${this.dicasRestantes}`;
+        
+        if (this.dicasRestantes === 0) {
+            this.elementos.btnDica.disabled = true;
+        } else {
+            this.elementos.btnDica.disabled = false;
+        }
+    }
+    
+    async obterDicaIA() {
+        try {
+            const letrasReveladas = this.seletorPalavra.filter(l => l !== '_').join('');
+            const prompt = `Estou jogando um jogo de adivinhação. A palavra tem ${this.palavra.length} letras. Letras já reveladas: ${letrasReveladas || 'nenhuma'}. Letras já tentadas: ${Array.from(this.letrasUsadas).join(', ') || 'nenhuma'}. Dê uma dica criativa e útil sobre qual letra tentar a seguir, mas sem revelar a palavra. Seja breve (máximo 30 palavras).`;
+            
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${this.apiKey}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{ text: prompt }]
+                    }]
+                })
+            });elementos.btnDica.disabled = true;
+            this.
+            
+            const data = await response.json();
+            if (data.candidates && data.candidates[0]) {
+                const dica = data.candidates[0].content.parts[0].text.trim();
+                this.mostrarMensagem(`🤖 ${dica}`, 'info');
+            } else {
+                this.obterDicaSimples();
+            }
+        } catch (error) {
+            console.error('Erro ao obter dica da IA:', error);
+            this.obterDicaSimples();
+        }
+    }
+    
+    obterDicaSimples() {
+        // Dica simples: sugerir uma letra que está na palavra e ainda não foi usada
+        const letrasNaoUsadas = [];
+        for (let letra of this.palavra) {
+            if (!this.letrasUsadas.has(letra) && !this.seletorPalavra.includes(letra)) {
+                letrasNaoUsadas.push(letra);
+            }
+        }
+        
+        if (letrasNaoUsadas.length > 0) {
+            const letraDica = letrasNaoUsadas[Math.floor(Math.random() * letrasNaoUsadas.length)];
+            this.mostrarMensagem(`💡 Dica: Tente a letra "${letraDica.toUpperCase()}"`, 'info');
+        } else {
+            this.mostrarMensagem('💡 Dica: Continue tentando! Você está perto!', 'info');
+        }
     }
     
     verificarLetra() {
