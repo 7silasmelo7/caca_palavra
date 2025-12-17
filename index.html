@@ -11,29 +11,7 @@
         <!-- Título -->
         <header class="header">
             <h1>🎮 Jogo de Adivinhação</h1>
-            <button id="btnConfig" class="btn-config" title="Configurações de IA">⚙️</button>
         </header>
-
-        <!-- Painel de Configuração de IA -->
-        <div id="configPanel" class="config-panel">
-            <h3>🤖 Configuração de IA</h3>
-            <div class="config-content">
-                <label for="apiKey">Google Gemini API Key:</label>
-                <input type="password" id="apiKey" placeholder="Cole sua API key aqui">
-                <button id="btnSalvarKey" class="btn btn-salvar">Salvar</button>
-                <p class="config-info">🔗 <a href="https://aistudio.google.com/app/apikey" target="_blank">Obter API key gratuita</a></p>
-                <div class="config-options">
-                    <label>
-                        <input type="checkbox" id="usarIApalavras" checked>
-                        Gerar palavras com IA
-                    </label>
-                    <label>
-                        <input type="checkbox" id="dicasIA" checked>
-                        Ativar dicas inteligentes
-                    </label>
-                </div>
-            </div>
-        </div>
 
         <!-- Conteúdo Principal -->
         <main class="main-content">
@@ -46,25 +24,73 @@
 
             <!-- Display da Palavra -->
             <div class="palavra-container">
-                <div id="palavraDisplay" class="palavra-display">_ _ _ _ _</div>
+                <!-- Categoria -->
+                <div class="categoria-display">
+                    <p id="categoria" class="categoria-text">🎮 Iniciando...</p>
+                </div>
+                
+                <div id="palavraDisplay" class="palavra-display" role="region" aria-label="Palavra a ser adivinhada" aria-live="polite">_ _ _ _ _</div>
+                
+                <!-- Barra de Progresso -->
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <p class="progress-text">
+                    <span id="progressText">0% completo</span>
+                </p>
             </div>
-
-            <!-- Campo de Entrada -->
-            <div class="input-section">
-                <label for="letraInput">Digite uma letra:</label>
-                <input 
-                    type="text" 
-                    id="letraInput" 
-                    maxlength="1" 
-                    placeholder="A"
-                    autocomplete="off"
-                >
-                <button id="btnVerificar" class="btn btn-verificar">Verificar</button>
+            
+            <!-- Painel de Pontuação -->
+            <div class="score-panel">
+                <div class="score-item">
+                    <span class="score-label">🏆 Pontuação:</span>
+                    <span id="scoreText" class="score-value">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">⭐ Recorde:</span>
+                    <span id="recordeText" class="score-value">0</span>
+                </div>
+            </div>
+            
+            <!-- Teclado Virtual -->
+            <div class="teclado-virtual" id="tecladoVirtual">
+                <div class="teclado-linha">
+                    <button class="tecla" data-letra="a">A</button>
+                    <button class="tecla" data-letra="b">B</button>
+                    <button class="tecla" data-letra="c">C</button>
+                    <button class="tecla" data-letra="d">D</button>
+                    <button class="tecla" data-letra="e">E</button>
+                    <button class="tecla" data-letra="f">F</button>
+                    <button class="tecla" data-letra="g">G</button>
+                    <button class="tecla" data-letra="h">H</button>
+                    <button class="tecla" data-letra="i">I</button>
+                </div>
+                <div class="teclado-linha">
+                    <button class="tecla" data-letra="j">J</button>
+                    <button class="tecla" data-letra="k">K</button>
+                    <button class="tecla" data-letra="l">L</button>
+                    <button class="tecla" data-letra="m">M</button>
+                    <button class="tecla" data-letra="n">N</button>
+                    <button class="tecla" data-letra="o">O</button>
+                    <button class="tecla" data-letra="p">P</button>
+                    <button class="tecla" data-letra="q">Q</button>
+                    <button class="tecla" data-letra="r">R</button>
+                </div>
+                <div class="teclado-linha">
+                    <button class="tecla" data-letra="s">S</button>
+                    <button class="tecla" data-letra="t">T</button>
+                    <button class="tecla" data-letra="u">U</button>
+                    <button class="tecla" data-letra="v">V</button>
+                    <button class="tecla" data-letra="w">W</button>
+                    <button class="tecla" data-letra="x">X</button>
+                    <button class="tecla" data-letra="y">Y</button>
+                    <button class="tecla" data-letra="z">Z</button>
+                </div>
             </div>
 
             <!-- Botão de Dica -->
             <div class="dica-section">
-                <button id="btnDica" class="btn btn-dica" title="Obter dica inteligente">💡 Dica com IA</button>
+                <button id="btnDica" class="btn btn-dica" title="Obter dica">💡 Dica</button>
                 <span id="dicasRestantes" class="dicas-contador">Dicas: 3</span>
             </div>
 
@@ -84,7 +110,7 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <p>💡 Dica: Pressione Enter após digitar a letra</p>
+            <p>💡 Clique nas letras do teclado para jogar</p>
         </footer>
     </div>
 

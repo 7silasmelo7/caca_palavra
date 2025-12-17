@@ -204,6 +204,35 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Categoria */
+.categoria-display {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.categoria-text {
+    font-size: 22px;
+    font-weight: 700;
+    color: #4f46e5;
+    background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+    padding: 12px 24px;
+    border-radius: 25px;
+    display: inline-block;
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
+    animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .palavra-display {
     font-family: 'Courier New', monospace;
     font-size: 36px;
@@ -537,5 +566,183 @@ body {
     
     #letraInput:hover {
         border-color: #6366f1;
+    }
+}
+/* === NOVOS ESTILOS === */
+
+/* Barra de Progresso */
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #e5e7eb;
+    border-radius: 10px;
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    width: 0%;
+    transition: width 0.5s ease;
+    border-radius: 10px;
+}
+
+.progress-text {
+    text-align: center;
+    font-size: 14px;
+    color: #6b7280;
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+/* Painel de Pontuação */
+.score-panel {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    margin: 20px 0;
+    padding: 15px;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.score-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.score-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #78350f;
+}
+
+.score-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #92400e;
+}
+
+/* Teclado Virtual */
+.teclado-virtual {
+    display: flex; /* Mostrar em todas as telas para testes */
+    flex-direction: column;
+    gap: 8px;
+    margin: 20px 0;
+    padding: 15px;
+    background: #f9fafb;
+    border-radius: 12px;
+}
+
+.teclado-linha {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.tecla {
+    min-width: 35px;
+    padding: 12px 8px;
+    font-size: 14px;
+    font-weight: bold;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #1f2937;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.tecla:hover:not(:disabled) {
+    background: #f3f4f6;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tecla:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.tecla.usada {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.tecla.correta {
+    background: #10b981;
+    color: white;
+    border-color: #059669;
+}
+
+.tecla.errada {
+    background: #ef4444;
+    color: white;
+    border-color: #dc2626;
+}
+
+.tecla:disabled {
+    cursor: not-allowed;
+}
+
+/* Responsividade do teclado virtual */
+@media (max-width: 600px) {
+    .teclado-virtual {
+        display: flex;
+    }
+    
+    .input-section {
+        display: none;
+    }
+}
+
+/* Desktop: Mostrar ambos */
+@media (min-width: 601px) {
+    .teclado-virtual {
+        display: flex; /* Sempre visível para facilitar */
+    }
+    
+    .input-section {
+        display: flex;
+    }
+}
+
+/* Acessibilidade - Melhor foco */
+*:focus {
+    outline: 3px solid #4f46e5;
+    outline-offset: 2px;
+}
+
+/* Modo de alto contraste */
+@media (prefers-contrast: high) {
+    body {
+        background: white;
+        color: black;
+    }
+    
+    .container {
+        border: 2px solid black;
+    }
+    
+    .btn {
+        border: 2px solid black;
+    }
+}
+
+/* Respeitar preferência de animações reduzidas */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
 }
